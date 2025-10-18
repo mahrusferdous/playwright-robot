@@ -1,3 +1,8 @@
+"""
+MCP Run Test Script
+Executes a predefined action plan on the Sauce Demo website using the MCPExecutor.
+"""
+
 from mcp_agent import MCPExecutor
 from playwright.sync_api import sync_playwright
 

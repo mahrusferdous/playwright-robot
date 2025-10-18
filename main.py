@@ -1,9 +1,6 @@
 """
-Core Playwright automation (Slowed Down Version):
-- Logs into https://www.saucedemo.com with demo credentials
-- Finds a product by keyword
-- Prints the product name and price (final output)
-- Slowed down for visible browser actions
+Automates login and product search on the Sauce Demo website using Playwright.
+Returns success status and messages accordingly.
 """
 
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
@@ -20,10 +17,6 @@ def sleep_if_enabled(delay):
         time.sleep(delay / 1000)  # convert ms to seconds
 
 def find_product_by_keyword(page, keyword, timeout=5000):
-    """
-    Searches the inventory list for a product whose name contains the keyword (case-insensitive).
-    Returns (name, price, product_link_element) or None if not found.
-    """
     try:
         page.wait_for_selector(".inventory_list", timeout=timeout)
     except PlaywrightTimeoutError:
@@ -48,11 +41,6 @@ def find_product_by_keyword(page, keyword, timeout=5000):
 
 
 def run_task(product_keyword, headless=True, slow_mo=0):
-    """
-    Run the automation and return a tuple (success: bool, message: str).
-    - headless=False: show browser
-    - slow_mo=1000: 1 second delay between each action
-    """
     try:
         with sync_playwright() as p:
             # Slow down browser automation visibly

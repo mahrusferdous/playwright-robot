@@ -1,4 +1,8 @@
-# mcp_agent.py
+"""
+MCP Agent Executor Module
+Handles validation and execution of action plans on web pages using Playwright.
+"""
+
 from typing import List, Dict, Any
 from playwright.sync_api import Page
 import time
