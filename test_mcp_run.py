@@ -11,7 +11,7 @@ with sync_playwright() as p:
     page = browser.new_page() # open a new page
 
     executor = MCPExecutor(page) # create MCPExecutor instance
-    executor.auto_login_saucedemo()  # login first
+    executor.auto_login_sauce()  # login first
 
     valid, msg = executor.validate_plan(plan) # validate the plan
     print("Validation:", valid, msg)

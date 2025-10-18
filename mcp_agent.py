@@ -79,7 +79,7 @@ class MCPExecutor:
 
         return results
 
-    def auto_login_saucedemo(self, username="standard_user", password="secret_sauce"):
+    def auto_login_sauce(self, username="standard_user", password="secret_sauce"):
         self.page.goto("https://www.saucedemo.com/")
         self.page.fill("#user-name", username)
         self.page.fill("#password", password)
