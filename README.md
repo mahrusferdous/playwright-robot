@@ -12,6 +12,19 @@ It includes:
 
 ## Setup
 
+Run requirements installation:
+
+```bash
+python -m venv env
+pip install -r requirements.txt
+```
+
+Install Playwright browsers:
+
+```bash
+python -m playwright install
+```
+
 Activate a virtual environment:
 
 ```bash
