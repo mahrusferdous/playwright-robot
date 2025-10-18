@@ -16,13 +16,6 @@ Run requirements installation:
 
 ```bash
 python -m venv env
-pip install -r requirements.txt
-```
-
-Install Playwright browsers:
-
-```bash
-python -m playwright install
 ```
 
 Activate a virtual environment:
@@ -30,6 +23,12 @@ Activate a virtual environment:
 ```bash
 .\env\Scripts\Activate  # Windows
 source env/bin/activate  # macOS/Linux
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
 ```
 
 To deactivate later:
