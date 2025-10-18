@@ -35,7 +35,7 @@ pip install -r requirements.txt
 Install Playwright browsers:
 
 ```bash
-python -m playwright install
+playwright install
 ```
 
 To deactivate later:
