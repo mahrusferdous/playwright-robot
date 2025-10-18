@@ -12,12 +12,13 @@ app = Flask(__name__)
 def run_task_endpoint():
     try:
         # Parse JSON input (with defaults)
-        data = request.get_json(force=True) or {}
+        data = request.get_json()
         product_keyword = data.get("product_keyword", "backpack")
         headless = data.get("headless", True)
+        delay = data.get("delay", 0)
 
         # Run the Playwright automation
-        success, message = run_task(headless=headless, product_keyword=product_keyword)
+        success, message = run_task(product_keyword, headless, delay)
 
         return jsonify({"success": success, "message": message})
     

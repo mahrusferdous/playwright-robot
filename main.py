@@ -14,6 +14,11 @@ SAUCE_URL = "https://www.saucedemo.com/"
 USERNAME = "standard_user"
 PASSWORD = "secret_sauce"
 
+def sleep_if_enabled(delay):
+    """Helper to sleep only if delay > 0"""
+    if delay > 0:
+        time.sleep(delay / 1000)  # convert ms to seconds
+
 def find_product_by_keyword(page, keyword, timeout=5000):
     """
     Searches the inventory list for a product whose name contains the keyword (case-insensitive).
@@ -42,7 +47,7 @@ def find_product_by_keyword(page, keyword, timeout=5000):
     return None
 
 
-def run_task(headless, product_keyword, slow_mo=1000):
+def run_task(product_keyword, headless=True, slow_mo=0):
     """
     Run the automation and return a tuple (success: bool, message: str).
     - headless=False: show browser
@@ -58,7 +63,8 @@ def run_task(headless, product_keyword, slow_mo=1000):
 
             print("Navigating to site...")
             page.goto(SAUCE_URL)
-            time.sleep(1)
+            sleep_if_enabled(slow_mo)
+
 
             try:
                 page.wait_for_selector("#user-name", timeout=8000)
@@ -68,12 +74,12 @@ def run_task(headless, product_keyword, slow_mo=1000):
 
             print("Filling in credentials...")
             page.fill("#user-name", USERNAME)
-            time.sleep(0.5)
+            sleep_if_enabled(slow_mo)
             page.fill("#password", PASSWORD)
-            time.sleep(0.5)
+            sleep_if_enabled(slow_mo)
             page.click("#login-button")
             print("Logging in...")
-            time.sleep(2)
+            sleep_if_enabled(slow_mo)
 
             print("Checking for inventory...")
             try:
@@ -95,10 +101,11 @@ def run_task(headless, product_keyword, slow_mo=1000):
 
             name, price, name_element = found
             print(f"Product found: {name} — Price: {price}")
-            time.sleep(1)
+            sleep_if_enabled(slow_mo)
             name_element.click()
+            
             print("Opening product details...")
-            time.sleep(1.5)
+            sleep_if_enabled(slow_mo)
 
             try:
                 page.wait_for_selector(".inventory_details_name", timeout=8000)
@@ -115,11 +122,9 @@ def run_task(headless, product_keyword, slow_mo=1000):
 
 
 if __name__ == "__main__":
-    headless = False   # show browser by default
-    product = "blue"  # default product keyword
-    slow_mo = 1000  # 1 second delay between each Playwright step
+    product = "red"  # default product keyword
 
-    success, message = run_task(headless=headless, product_keyword=product, slow_mo=slow_mo)
+    success, message = run_task(product_keyword=product, headless=False, slow_mo=1000)
     if success:
         print(message)
         sys.exit(0)

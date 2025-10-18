@@ -42,5 +42,5 @@ python api.py
 Then POST to `http://localhost:8000/run-task` with JSON:
 
 ```json
-{ "product_keyword": "backpack", "headless": true }
+{ "product_keyword": "backpack", "headless": false, "delay": 1000 }
 ```
