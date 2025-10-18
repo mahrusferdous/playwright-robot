@@ -32,6 +32,12 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+Install Playwright browsers:
+
+```bash
+python -m playwright install
+```
+
 To deactivate later:
 
 ```bash
@@ -39,8 +45,6 @@ deactivate
 ```
 
 ## Run the Core Automation
-
--   Headless (default):
 
 ```bash
 python main.py
