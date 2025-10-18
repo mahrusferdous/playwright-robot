@@ -13,7 +13,7 @@ def run_task_endpoint():
     try:
         # Parse JSON input (with defaults)
         data = request.get_json()
-        product_keyword = data.get("product_keyword", "backpack")
+        product_keyword = data.get("product_keyword")
         headless = data.get("headless", True)
         delay = data.get("delay", 0)
 
