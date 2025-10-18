@@ -8,7 +8,7 @@ It includes:
 -   `main.py` — Core automation that logs into https://www.saucedemo.com, finds a product, and prints its price.
 -   `api.py` — Flask API wrapper to trigger the automation via HTTP requests.
 -   `mcp_agent.py` — Scaffold for integrating an LLM via the MCP pattern (illustrative).
--   `env` — Python virtual environment with dependencies.
+-   `requirements.txt` — Python dependencies.
 
 ## Setup
 
@@ -56,3 +56,23 @@ Then POST to `http://localhost:8000/run-task` with JSON:
 ```json
 { "product_keyword": "backpack", "headless": false, "delay": 1000 }
 ```
+
+##
+
+## Playwright AI Agent - MCP Executor
+
+This project demonstrates a **minimal AI-driven web automation agent** using **Playwright**. The agent executes a predefined plan of steps (like clicking, typing, navigating, and reading text) on a web page. It is structured in a class-based format (`MCPExecutor`) and can be extended to integrate with a real LLM for dynamic plan generation.
+
+---
+
+## Features
+
+-   Open URLs and navigate pages
+-   Click elements and type into inputs
+-   Read text from elements
+-   Wait for elements or a specified time
+-   Validate action plans before execution
+-   Automatic login helper for [Sauce Demo](https://www.saucedemo.com/)
+-   Step-by-step execution results with error reporting
+
+---

@@ -1,2 +1,18 @@
-Flask==2.3.2
+# Web automation
 playwright==1.48.0
+
+# Web API (Flask)
+flask==3.0.3
+
+# Data handling and schema validation
+pydantic==2.9.2
+typing-extensions>=4.7.0
+
+# JSON schema, useful if you extend validation
+jsonschema==4.23.0
+
+# For optional debugging/logging
+requests==2.32.3
+
+# Optional - only if you plan to use async playwright or websocket
+websockets==13.1
