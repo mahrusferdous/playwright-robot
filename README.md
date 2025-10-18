@@ -6,17 +6,23 @@ This project demonstrates an automated browser "robot driver" using Playwright i
 It includes:
 
 -   `main.py` — Core automation that logs into https://www.saucedemo.com, finds a product, and prints its price.
--   `api.py` — Optional FastAPI endpoint to trigger the automation via HTTP.
+-   `api.py` — Flask API wrapper to trigger the automation via HTTP requests.
 -   `mcp_agent.py` — Scaffold for integrating an LLM via the MCP pattern (illustrative).
--   `requirements.txt` — Python dependencies.
+-   `env` — Python virtual environment with dependencies.
 
 ## Setup
 
-1. Activate a virtual environment:
+Activate a virtual environment:
 
 ```bash
 .\env\Scripts\Activate  # Windows
 source env/bin/activate  # macOS/Linux
+```
+
+To deactivate later:
+
+```bash
+deactivate
 ```
 
 ## Run the Core Automation
@@ -25,14 +31,6 @@ source env/bin/activate  # macOS/Linux
 
 ```bash
 python main.py
-```
-
--   Headed (for debugging):
-
-```bash
-python main.py headed
-or
-python main.py headed backpack 2000
 ```
 
 ## Run the Flask API (Optional)

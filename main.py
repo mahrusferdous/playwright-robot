@@ -25,19 +25,24 @@ def find_product_by_keyword(page, keyword, timeout=5000):
         return None
 
     items = page.query_selector_all(".inventory_item")
+    print(f"Total products found: {len(items)}")
+    
     for item in items:
         name_el = item.query_selector(".inventory_item_name")
         price_el = item.query_selector(".inventory_item_price")
+        
         if not name_el or not price_el:
             continue
+
         name = name_el.inner_text().strip()
         price = price_el.inner_text().strip()
+
         if keyword.lower() in name.lower():
             return (name, price, name_el)
     return None
 
 
-def run_task(headless=False, product_keyword="backpack", slow_mo=1000):
+def run_task(headless, product_keyword, slow_mo=1000):
     """
     Run the automation and return a tuple (success: bool, message: str).
     - headless=False: show browser
@@ -70,6 +75,7 @@ def run_task(headless=False, product_keyword="backpack", slow_mo=1000):
             print("Logging in...")
             time.sleep(2)
 
+            print("Checking for inventory...")
             try:
                 page.wait_for_selector(".inventory_list", timeout=10000)
                 print("Login successful. Inventory loaded.")
@@ -82,12 +88,10 @@ def run_task(headless=False, product_keyword="backpack", slow_mo=1000):
                     pass
                 return (False, "Login may have failed or inventory didn't load.")
 
-            print(f"Searching for product: {product_keyword}")
+            print(f"Searching for product with keyword: '{product_keyword}'...")
             found = find_product_by_keyword(page, product_keyword, timeout=8000)
             if not found:
-                names = [i.inner_text().strip() for i in page.query_selector_all(".inventory_item_name")]
-                msg = f'Product with keyword "{product_keyword}" not found. Inventory items: {names}'
-                return (False, msg)
+                return (False, f'Product with keyword "{product_keyword}" not found.')
 
             name, price, name_element = found
             print(f"Product found: {name} — Price: {price}")
@@ -101,7 +105,7 @@ def run_task(headless=False, product_keyword="backpack", slow_mo=1000):
                 details_name = page.query_selector(".inventory_details_name").inner_text().strip()
                 details_price = page.query_selector(".inventory_details_price").inner_text().strip()
                 final_message = f'Success! Product "{details_name}" found — Price: {details_price}'
-                return (True, final_message)
+                return (True, final_message)           
             except Exception:
                 final_message = f'Success! Product "{name}" found — Price: {price}'
                 return (True, final_message)
@@ -111,17 +115,9 @@ def run_task(headless=False, product_keyword="backpack", slow_mo=1000):
 
 
 if __name__ == "__main__":
-    headless = False   # 👈 show browser by default
-    product = "backpack"
-    slow_mo = 1000     # 👈 1 second delay between each Playwright step
-
-    if len(sys.argv) > 1:
-        if sys.argv[1].lower() in ("headed", "no-headless", "false"):
-            headless = False
-    if len(sys.argv) > 2:
-        product = sys.argv[2]
-    if len(sys.argv) > 3:
-        slow_mo = int(sys.argv[3])
+    headless = False   # show browser by default
+    product = "blue"  # default product keyword
+    slow_mo = 1000  # 1 second delay between each Playwright step
 
     success, message = run_task(headless=headless, product_keyword=product, slow_mo=slow_mo)
     if success:
