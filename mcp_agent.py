@@ -11,8 +11,14 @@ class MCPExecutor:
 
     def validate_plan(self, plan: List[Dict[str, Any]]):
         for step in plan:
-            if "action" not in step or step["action"] not in self.ALLOWED_ACTIONS:
-                return False, f"Invalid action in step: {step}"
+            action = step.get("action")
+
+            # Check if action exists and is allowed
+            if not action:
+                return False, f"Missing 'action' key in step: {step}"
+            if action not in self.ALLOWED_ACTIONS:
+                return False, f"Invalid action '{action}' in step: {step}"
+
         return True, "ok"
 
     def execute_plan(self, plan: List[Dict[str, Any]]):
@@ -21,26 +27,46 @@ class MCPExecutor:
             try:
                 action = step["action"]
 
+                # Handle click action
                 if action == "click":
-                    sel = step["selector"]
-                    idx = step.get("index", 0)
-                    self.page.wait_for_selector(sel, timeout=5000)
-                    els = self.page.query_selector_all(sel)
-                    if len(els) > idx:
-                        els[idx].click()
+                    selector = step["selector"]
+                    index = step.get("index", 0) # default to first element
+
+                    self.page.wait_for_selector(selector, timeout=5000) # Wait for element(s) to appear
+                    elements = self.page.query_selector_all(selector) # Get all matching elements
+
+                    if index < len(elements):
+                        elements[index].click()
                         results.append({"status": "ok", "step": step})
                     else:
-                        results.append({"status": "error", "step": step, "reason": "selector not found"})
+                        results.append({
+                            "status": "error",
+                            "step": step,
+                            "reason": f"Element not found at index {index} for selector '{selector}'"
+                        })
                         break
 
+                # handle read_text action
                 elif action == "read_text":
-                    sel = step["selector"]
-                    self.page.wait_for_selector(sel, timeout=5000)
-                    el = self.page.query_selector(sel)
-                    if el:
-                        results.append({"status": "ok", "step": step, "value": el.inner_text()})
+                    selector = step["selector"]
+                    index = step.get("index", 0) # default to first element
+
+                    self.page.wait_for_selector(selector, timeout=5000) # Wait for element(s) to appear
+                    elements = self.page.query_selector_all(selector) # Get all matching elements
+
+                    if elements:
+                        text_value = elements[index].inner_text()
+                        results.append({
+                            "status": "ok",
+                            "step": step,
+                            "value": text_value
+                        })
                     else:
-                        results.append({"status": "error", "step": step, "reason": "selector not found"})
+                        results.append({
+                            "status": "error",
+                            "step": step,
+                            "reason": f"Element not found for selector '{selector}'"
+                        })
                         break
 
                 elif action == "wait":
