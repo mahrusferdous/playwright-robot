@@ -4,7 +4,7 @@ from playwright.sync_api import Page
 import time
 
 class MCPExecutor:
-    ALLOWED_ACTIONS = {"click", "type", "open_url", "read_text", "navigate", "wait"}
+    ALLOWED_ACTIONS = {"click", "read_text", "wait"}
 
     def __init__(self, page: Page):
         self.page = page
@@ -21,29 +21,13 @@ class MCPExecutor:
             try:
                 action = step["action"]
 
-                if action in ["open_url", "navigate"]:
-                    self.page.goto(step["url"])
-                    results.append({"status": "ok", "step": step})
-
-                elif action == "click":
+                if action == "click":
                     sel = step["selector"]
                     idx = step.get("index", 0)
                     self.page.wait_for_selector(sel, timeout=5000)
                     els = self.page.query_selector_all(sel)
                     if len(els) > idx:
                         els[idx].click()
-                        results.append({"status": "ok", "step": step})
-                    else:
-                        results.append({"status": "error", "step": step, "reason": "selector not found"})
-                        break
-
-                elif action == "type":
-                    sel = step["selector"]
-                    value = step.get("value", "")
-                    self.page.wait_for_selector(sel, timeout=5000)
-                    el = self.page.query_selector(sel)
-                    if el:
-                        el.fill(value)
                         results.append({"status": "ok", "step": step})
                     else:
                         results.append({"status": "error", "step": step, "reason": "selector not found"})
@@ -70,7 +54,6 @@ class MCPExecutor:
         return results
 
     def auto_login_saucedemo(self, username="standard_user", password="secret_sauce"):
-        """Quick helper to login if using saucedemo.com"""
         self.page.goto("https://www.saucedemo.com/")
         self.page.fill("#user-name", username)
         self.page.fill("#password", password)

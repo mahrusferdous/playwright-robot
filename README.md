@@ -71,7 +71,13 @@ This project demonstrates a **minimal AI-driven web automation agent** using **P
 -   Read text from elements
 -   Wait for elements or a specified time
 -   Validate action plans before execution
--   Automatic login helper for [Sauce Demo](https://www.saucedemo.com/)
+-   Automatic login to demo site
 -   Step-by-step execution results with error reporting
+
+## Run the MCP Executor Test
+
+```bash
+python test_mcp_agent.py
+```
 
 ---
