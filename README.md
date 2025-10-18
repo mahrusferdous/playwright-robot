@@ -7,7 +7,8 @@ It includes:
 
 -   `main.py` — Core automation that logs into https://www.saucedemo.com, finds a product, and prints its price.
 -   `api.py` — Flask API wrapper to trigger the automation via HTTP requests.
--   `mcp_agent.py` — Scaffold for integrating an LLM via the MCP pattern (illustrative).
+-   `mcp_agent.py` — Class-based implementation of a minimal AI agent (`MCPExecutor`) that executes a predefined plan of web actions using Playwright.
+-   `test_mcp_agent.py` — Test script for the `MCPExecutor` class.
 -   `requirements.txt` — Python dependencies.
 
 ## Setup
