@@ -16,3 +16,6 @@ requests
 
 # Optional - only if you plan to use async playwright or websocket
 websockets
+
+# Optional - only if you plan to use Cohere API
+cohere

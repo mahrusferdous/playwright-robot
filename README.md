@@ -60,24 +60,29 @@ Then POST to `http://localhost:8000/run-task` with JSON:
 
 ## Playwright AI Agent - MCP Executor
 
-This project demonstrates a **minimal AI-driven web automation agent** using **Playwright**. The agent executes a predefined plan of steps (like clicking, typing, navigating, and reading text) on a web page. It is structured in a class-based format (`MCPExecutor`) and can be extended to integrate with a real LLM for dynamic plan generation.
-
----
+The MCP Executor is a class-based implementation of a minimal AI agent that executes a predefined plan of web actions using Playwright. It validates the action plan before execution and provides step-by-step results with error reporting.
 
 ## Features
 
--   Open URLs and navigate pages
--   Click elements and type into inputs
--   Read text from elements
--   Wait for elements or a specified time
--   Validate action plans before execution
--   Automatic login to demo site
--   Step-by-step execution results with error reporting
+-   Validates action plans before execution
+-   Executes a series of web actions (click, fill, read text, wait)
+-   Provides detailed step-by-step execution results
+-   Supports error handling and reporting
 
-## Run the MCP Executor Test
+## To Use the MCP Executor
 
-```bash
-python test_mcp_agent.py
+Api key Setup:
+
+1. Sign up for a Cohere account at [Cohere](https://cohere.com/).
+2. Navigate to the API Keys section in your Cohere dashboard.
+3. Generate a new API key and copy it.
+4. Replace the placeholder `"YOUR_VALID_COHERE_API_KEY_HERE"` in `MCP_Agent/main.py` with your actual API key.
+
+To use the MCP Executor, run the following command:
+
+```
+cd MCP_Agent
+python main.py
 ```
 
 ---
